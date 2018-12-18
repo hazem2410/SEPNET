@@ -895,7 +895,7 @@ VectorXd MLE_Robins_Monro(vector<double>& configuration)
 			int n_conv = 0;
 			for (int i= 0; i<number_variables; ++i)
 			{
-				if (abs((mean(Statistics_Collection[i]) - Z_obs[i])/stdev(Statistics_Collection[i])) <= 2)
+				if (abs((mean(Statistics_Collection[i]) - Z_obs[i])/stdev(Statistics_Collection[i])) <= 0.1)
 					n_conv++;
 			}
 			if (n_conv == number_variables) convergence_test = true;
