@@ -36,6 +36,7 @@ VectorXd theta(number_variables);
 int initial_simulation = 5; //Initialization to calculate Theta
 double a_r = 0.1; //Initial "a" parameter: See Lusher et al. (2013)
 int number_phases = 10; //Define the maximum phases until convergence; Value of 10 means that if convergence does not occur after 10 phases, the code is considered as non converging
+int nbr_sub_phases;
 int burnin = 100; //The burnin MCMC is used to avoid the effect to initialization
 int NumNetworks = 3; //How many network do you want to simulate after the convergence to achieve the GoF analysis
 //==============================================================================
@@ -854,8 +855,6 @@ VectorXd MLE_Robins_Monro(vector<double>& configuration)
     }
 
     theta -= a_r*inv_D0*(E - Z_obs);
-
-    int nbr_sub_phases;
 
     typedef Matrix<double,16,1> vec_theta;
     std::vector<vec_theta> Theta_Collection;
