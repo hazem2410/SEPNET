@@ -30,9 +30,9 @@ struct Link{
 };
 
 //==============================================================================
-int number_parameters = 16;
+int number_variables = 16;
 int IFD_size = 2; // The size of the MCMC sampling
-VectorXd theta(number_parameters);
+VectorXd theta(number_variables);
 int initial_simulation = 5; //Initialization to calculate Theta
 double a_r = 0.1; //Initial "a" parameter: See Lusher et al. (2013)
 int number_phases = 10; //Define the maximum phases until convergence; Value of 10 means that if convergence does not occur after 10 phases, the code is considered as non converging
@@ -767,8 +767,8 @@ std::pair<VectorXd, std::unordered_map <std::string, struct Link> > IFD_Sampling
 	        }
         }
     }
-	VectorXd Z_s(number_parameters);
-	for (int i = 0 ; i < number_parameters; ++i)
+	VectorXd Z_s(number_variables);
+	for (int i = 0 ; i < number_variables; ++i)
 	Z_s(i) = current_configuration[i];
 	return std::make_pair(Z_s, network);
 }
@@ -815,23 +815,23 @@ double stdev(vector<double> nums)
 
 VectorXd MLE_Robins_Monro(vector<double>& configuration)
 {
-	VectorXd Z_obs(number_parameters);
+	VectorXd Z_obs(number_variables);
     std::unordered_map <std::string, struct Link> sampled_network;
     VectorXd Z_s;
     std::pair<VectorXd, std::unordered_map <std::string, struct Link> > Simulation;
-	for (int i = 0 ; i < number_parameters; ++i)
+	for (int i = 0 ; i < number_variables; ++i)
 	Z_obs(i) = configuration[i];
-	VectorXd E(number_parameters);
+	VectorXd E(number_variables);
 	E << 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0;
-	MatrixXd M(initial_simulation, number_parameters);
-	MatrixXd D(number_parameters,number_parameters);
+	MatrixXd M(initial_simulation, number_variables);
+	MatrixXd D(number_variables,number_variables);
 	for (int k = 0; k <initial_simulation; ++k)
 	{
 		Simulation = IFD_Sampling(configuration);
         Z_s = Simulation.first;
         sampled_network = Simulation.second;
 		M.row(k) = Z_s;
-		for (int i = 0; i<number_parameters;++i) E[i] += Z_s[i];
+		for (int i = 0; i<number_variables;++i) E[i] += Z_s[i];
 	}
 	double weight_parameters = 1.0/initial_simulation;
     E = weight_parameters*E;
@@ -839,10 +839,10 @@ VectorXd MLE_Robins_Monro(vector<double>& configuration)
 
     FullPivLU< MatrixXd > D_lu(D);
 	MatrixXd inv_D = D_lu.inverse();
-    MatrixXd inv_D0(number_parameters,number_parameters);
-    for (int i = 0; i <number_parameters; ++i)
+    MatrixXd inv_D0(number_variables,number_variables);
+    for (int i = 0; i <number_variables; ++i)
     {
-    	for (int j = 0; j <number_parameters; ++j)
+    	for (int j = 0; j <number_variables; ++j)
     	{
     		if (i==j)
     		{
@@ -859,7 +859,7 @@ VectorXd MLE_Robins_Monro(vector<double>& configuration)
 
     typedef Matrix<double,16,1> vec_theta;
     std::vector<vec_theta> Theta_Collection;
-    VectorXd theta_average(number_parameters);
+    VectorXd theta_average(number_variables);
 
 	for (int m = 0; m<burnin; ++m)
 	{
@@ -876,7 +876,7 @@ VectorXd MLE_Robins_Monro(vector<double>& configuration)
     {
     	nbr_sub_phases = 10;
     	theta_average << 0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0,0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0;
-        vector<vector<double> > Statistics_Collection(number_parameters, vector<double>(1));
+        vector<vector<double> > Statistics_Collection(number_variables, vector<double>(1));
     	for (int m = 0; m<nbr_sub_phases; ++m)
     	{
     		Simulation = IFD_Sampling(configuration);
@@ -885,7 +885,7 @@ VectorXd MLE_Robins_Monro(vector<double>& configuration)
     		theta -= a_r*inv_D0*(Z_s - Z_obs);
     		theta_average+=theta;
     		Theta_Collection.push_back(theta);
-    		for (int i = 0; i<number_parameters; ++i) Statistics_Collection[i].push_back(Z_s[i]);
+    		for (int i = 0; i<number_variables; ++i) Statistics_Collection[i].push_back(Z_s[i]);
     	}
 
     	a_r = 0.5*a_r;
@@ -894,12 +894,12 @@ VectorXd MLE_Robins_Monro(vector<double>& configuration)
 		if (r > 3)
 		{
 			int n_conv = 0;
-			for (int i= 0; i<number_parameters; ++i)
+			for (int i= 0; i<number_variables; ++i)
 			{
 				if (abs((mean(Statistics_Collection[i]) - Z_obs[i])/stdev(Statistics_Collection[i])) <= 2)
 					n_conv++;
 			}
-			if (n_conv == number_parameters) convergence_test = true;
+			if (n_conv == number_variables) convergence_test = true;
 		}
     	++r;
     }
