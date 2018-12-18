@@ -21,4 +21,27 @@ SEPNET implements ERGM for production network:
 
 * To compile from your shell or cmd command: g++ -I C:/Eigen ERGMGithub.cpp -o ERGM.
 
-* Then, simply execute ERGM.exe file.  
+* Then, simply execute ERGM.exe file.
+
+# 2. Initialisation of parameters
+
+Parameters in SEPNET considers mainly the chain size of the MCMC. Following, we describe each parameter with its suggested value.
+
+* number_variables: It counts the number of attributes; 16 in our case.
+
+* theta: The vector of estimated parameters, with size equal to number_variables.
+
+* IFD_size: the size the fixed-density MCMC sampling. It depends on the network size, see [Lusher et al. (2013)](https://www.cambridge.org/core/books/exponential-random-graph-models-for-social-networks/9296EE2B53CDEF9FE9E2E981E2FDB8A8).
+
+* a_r is the gain factor that controls the largeness of the updating steps of parameter theta. [Lusher et al. (2013)](https://www.cambridge.org/core/books/exponential-random-graph-models-for-social-networks/9296EE2B53CDEF9FE9E2E981E2FDB8A8)
+suggests a value of 0.1.
+
+* initial_simulation: the size of iteration to calculate the initial theta. This parameter is suggested to be equal to 3 + 7*number_variables.
+
+* burnin: It defines the size of the burn-in stage.
+
+* number_phases: The maximum number of iterations before convergence.
+
+# 2. Publications based on SEPNET:
+
+Krichene, H., Arata, Y., Chakraborty, A., Fujiwara, Y. and Inoue, H. How Firms Choose their Partners in the Japanese Supplier-Customer Network? An application of the exponential random graph model (2018). RIETI DP 18-E-011.
