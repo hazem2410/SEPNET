@@ -44,7 +44,14 @@ suggests a value of 0.1.
 
 * number_phases: The maximum number of iterations before convergence.
 
-# 3. Publications based on SEPNET:
+# 3. SEPNET's outputs:
+
+SEPNET offers two main outputs, as shown in the example directory "Example_Outputs".
+
+* Theta_Collection.txt: A file that contains the final estimation of the ERGM parameters. Each column is related to an attribute of the model.
+* network_sim.txt: A file that contains a simulated network with the FD_MCMC based on the estimated parameters. The user can simulate multiple networks in order to achieve the Godness of Fit analysis of the model.
+
+# 4. Publications based on SEPNET:
 
 Krichene, H., Chakraborty, A., Fujiwara, Y., Inoue, H. and Terai, M. Tie-formation process within the communities of the Japanese production network: application of an exponential random graph model. Applied Network Science 4(5), (2019). https://doi.org/10.1007/s41109-019-0112-9 
 
