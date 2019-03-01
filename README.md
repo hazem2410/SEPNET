@@ -1,4 +1,4 @@
-<img src="images/logo.png" width = "100">
+<img src="images/logo.png" width = "200">
 
 # Simulation and Estimation of Production Network
 
