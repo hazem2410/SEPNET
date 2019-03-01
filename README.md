@@ -44,4 +44,4 @@ suggests a value of 0.1.
 
 # 3. Publications based on SEPNET:
 
-Krichene, H., Arata, Y., Chakraborty, A., Fujiwara, Y. and Inoue, H. How Firms Choose their Partners in the Japanese Supplier-Customer Network? An application of the exponential random graph model (2018). RIETI DP 18-E-011.
+Krichene, H., Arata, Y., Chakraborty, A., Fujiwara, Y. and Inoue, H. How Firms Choose their Partners in the Japanese Supplier-Customer Network? An application of the exponential random graph model (2018). RIETI DP 18-E-011...
