@@ -23,7 +23,7 @@ SEPNET implements ERGM for production network:
 
 * To compile from your shell or cmd command: g++ -I C:/Eigen ERGMGithub.cpp -o ERGM.
 
-* Then, simply execute ERGM.exe file.
+* Then, simply execute as follows: ERGM.exe
 
 # 2. Initialisation of parameters
 
